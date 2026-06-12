@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nós 3 — sempre foi e sempre será</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:      #1a1412;
+      --paper:    #f7f3ee;
+      --warm:     #ede6db;
+      --accent:   #b5451b;
+      --muted:    #8a7f75;
+      --border:   #ddd5c8;
+      --card:     #ffffff;
+      --radius:   14px;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Inter', system-ui, sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 56px 24px 48px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    header h1 {
+      font-family: 'Lora', Georgia, serif;
+      font-size: clamp(1.6rem, 5vw, 2.6rem);
+      font-weight: 400;
+      line-height: 1.3;
+      max-width: 560px;
+      margin: 0 auto 14px;
+    }
+
+    header h1 em {
+      font-style: italic;
+      color: #e8c4b8;
+    }
+
+    .subtitle {
+      font-size: 0.82rem;
+      color: #9e9088;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+    }
+
+    .card-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    /* ── LIKE ── */
+    #likeBtn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--warm);
+      border: 1.5px solid var(--border);
+      border-radius: 99px;
+      padding: 10px 20px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--ink);
+      cursor: pointer;
+      transition: background 0.18s, border-color 0.18s, transform 0.12s;
+      user-select: none;
+    }
+
+    #likeBtn:hover  { background: #f0e0da; border-color: #c9a99a; }
+    #likeBtn:active { transform: scale(0.96); }
+
+    #likeBtn.liked {
+      background: #fce8e3;
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .like-icon { font-size: 1.1rem; line-height: 1; }
+
+    /* ── COMMENTS LIST ── */
+    #commentsList { display: flex; flex-direction: column; gap: 0; }
+
+    .comment {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .comment:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+
+    .author {
+      font-family: 'Lora', serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .date {
+      font-size: 0.75rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .comment p {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: #3d3530;
+    }
+
+    .empty-state {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      color: var(--muted);
+      font-size: 0.92rem;
+      padding: 8px 0;
+    }
+
+    /* ── FORM ── */
+    .form-section {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .form-section .card-label { margin-bottom: 14px; }
+
+    .form-row { display: flex; flex-direction: column; gap: 12px; }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 9px;
+      background: var(--paper);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink);
+      transition: border-color 0.15s;
+      outline: none;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      background: #fff;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .submit-btn {
+      align-self: flex-start;
+      background: var(--ink);
+      color: var(--paper);
+      border: none;
+      border-radius: 9px;
+      padding: 11px 22px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.12s;
+      letter-spacing: 0.02em;
+    }
+
+    .submit-btn:hover   { background: #2e2420; }
+    .submit-btn:active  { transform: scale(0.97); }
+    .submit-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--ink);
+      color: var(--paper);
+      padding: 10px 20px;
+      border-radius: 99px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s, transform 0.22s;
+      white-space: nowrap;
+      z-index: 100;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── SKELETON ── */
+    .skeleton {
+      background: linear-gradient(90deg, #ede9e3 25%, #e4dfd7 50%, #ede9e3 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 6px;
+      height: 14px;
+    }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+
+    @media (max-width: 480px) {
+      header { padding: 40px 20px 36px; }
+      .card  { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">Uma página só nossa</p>
+  <h1>Aqui seu comentário persiste, <em>nós três</em>, sempre foi e será nós 3</h1>
+  <p class="subtitle">Feito com Supabase · Netlify · GitHub</p>
+</header>
+
+<main>
+
+  <!-- LIKES -->
+  <div class="card">
+    <p class="card-label">Curtidas</p>
+    <button id="likeBtn" aria-label="Curtir">
+      <span class="like-icon" id="likeIcon">🤍</span>
+      <span id="likeCount">…</span> curtidas
+    </button>
+  </div>
+
+  <!-- COMMENTS -->
+  <div class="card">
+    <p class="card-label">Comentários</p>
+    <div id="commentsList">
+      <p class="empty-state">Carregando comentários…</p>
+    </div>
+
+    <div class="form-section">
+      <p class="card-label">Deixar um comentário</p>
+      <div class="form-row" id="commentForm">
+        <input type="text" id="authorInput" placeholder="Seu nome" maxlength="50" autocomplete="off">
+        <textarea id="contentInput" placeholder="Escreva algo…" maxlength="500"></textarea>
+        <button class="submit-btn" id="submitBtn">Enviar comentário</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<div id="toast"></div>
+
+<script>
+  // ── Visitor ID (anônimo, persistente por navegador) ──
+  let visitorId = localStorage.getItem('visitor_id')
+  if (!visitorId) {
+    visitorId = crypto.randomUUID()
+    localStorage.setItem('visitor_id', visitorId)
+  }
+
+  const POST_SLUG = 'pagina-principal'
+
+  // Helpers
+  function escapeHtml(str) {
+    const d = document.createElement('div')
+    d.textContent = str
+    return d.innerHTML
+  }
+
+  function showToast(msg, duration = 2600) {
+    const t = document.getElementById('toast')
+    t.textContent = msg
+    t.classList.add('show')
+    setTimeout(() => t.classList.remove('show'), duration)
+  }
+
+  // ── API calls (sem credenciais no front-end) ──
+
+  async function apiFetch(path, options = {}) {
+    const res = await fetch(path, {
+      headers: { 'Content-Type': 'application/json' },
+      ...options,
+    })
+    if (!res.ok) throw new Error(`API error ${res.status}`)
+    return res.json()
+  }
+
+  // ── Likes ──
+
+  let likedState = false
+
+  async function loadLikes() {
+    const data = await apiFetch(`/.netlify/functions/likes?slug=${POST_SLUG}&visitor=${visitorId}`)
+    document.getElementById('likeCount').textContent = data.count ?? 0
+    likedState = data.userLiked ?? false
+    updateLikeBtn()
+  }
+
+  function updateLikeBtn() {
+    const btn  = document.getElementById('likeBtn')
+    const icon = document.getElementById('likeIcon')
+    btn.classList.toggle('liked', likedState)
+    icon.textContent = likedState ? '❤️' : '🤍'
+  }
+
+  document.getElementById('likeBtn').addEventListener('click', async () => {
+    // Otimistic UI
+    likedState = !likedState
+    const countEl = document.getElementById('likeCount')
+    countEl.textContent = parseInt(countEl.textContent) + (likedState ? 1 : -1)
+    updateLikeBtn()
+
+    try {
+      await apiFetch('/.netlify/functions/likes', {
+        method: 'POST',
+        body: JSON.stringify({ slug: POST_SLUG, visitor: visitorId, action: likedState ? 'like' : 'unlike' }),
+      })
+    } catch {
+      // Reverte se falhar
+      likedState = !likedState
+      countEl.textContent = parseInt(countEl.textContent) + (likedState ? 1 : -1)
+      updateLikeBtn()
+      showToast('Algo deu errado. Tente novamente.')
+    }
+  })
+
+  // ── Comments ──
+
+  async function loadComments() {
+    const data = await apiFetch(`/.netlify/functions/comments?slug=${POST_SLUG}`)
+    const list = document.getElementById('commentsList')
+
+    if (!data.comments || !data.comments.length) {
+      list.innerHTML = '<p class="empty-state">Seja o primeiro a comentar!</p>'
+      return
+    }
+
+    list.innerHTML = data.comments.map(c => `
+      <div class="comment">
+        <div class="comment-header">
+          <span class="author">${escapeHtml(c.author_name)}</span>
+          <span class="date">${new Date(c.created_at).toLocaleString('pt-BR', {
+            day: '2-digit', month: 'short', year: 'numeric',
+            hour: '2-digit', minute: '2-digit'
+          })}</span>
+        </div>
+        <p>${escapeHtml(c.content)}</p>
+      </div>
+    `).join('')
+  }
+
+  document.getElementById('submitBtn').addEventListener('click', async () => {
+    const author  = document.getElementById('authorInput').value.trim()
+    const content = document.getElementById('contentInput').value.trim()
+
+    if (!author)  { showToast('Coloque seu nome antes de enviar.'); return }
+    if (!content) { showToast('Escreva algo no comentário.'); return }
+
+    const btn = document.getElementById('submitBtn')
+    btn.disabled = true
+    btn.textContent = 'Enviando…'
+
+    try {
+      await apiFetch('/.netlify/functions/comments', {
+        method: 'POST',
+        body: JSON.stringify({ slug: POST_SLUG, author_name: author, content }),
+      })
+      document.getElementById('authorInput').value  = ''
+      document.getElementById('contentInput').value = ''
+      await loadComments()
+      showToast('Comentário enviado! 🎉')
+    } catch {
+      showToast('Erro ao enviar. Tente novamente.')
+    } finally {
+      btn.disabled = false
+      btn.textContent = 'Enviar comentário'
+    }
+  })
+
+  // ── Init ──
+  Promise.all([loadLikes(), loadComments()])
+</script>
+</body>
+</html>
