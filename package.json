@@ -1,0 +1,8 @@
+{
+  "name": "nos-tres",
+  "version": "1.0.0",
+  "description": "Página de comentários e curtidas — backend seguro via Netlify Functions",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  }
+}
