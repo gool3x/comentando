@@ -1,0 +1,12 @@
+[build]
+  publish   = "."           # raiz do projeto é o que é publicado
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"  # bundling mais rápido; troque por "zip" se preferir
+
+# Redireciona /api/* → /.netlify/functions/* para URLs mais limpas (opcional)
+[[redirects]]
+  from   = "/api/:splat"
+  to     = "/.netlify/functions/:splat"
+  status = 200
